@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Courses App",
-  description: "Written by Randy Michak",
+  title: "XGMX Shop",
+  description: "A shop of XGMX's top picks",
 };
 
 export default function RootLayout({

@@ -15,11 +15,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-interface DeleteCourseButtonProps {
-  courseId: number;
+interface DeleteProductButtonProps {
+  productId: number; 
 }
 
-export default function DeleteCourseButton({ courseId }: DeleteCourseButtonProps) {
+export default function DeleteProductButton({ productId }: DeleteProductButtonProps) {
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,20 +29,20 @@ export default function DeleteCourseButton({ courseId }: DeleteCourseButtonProps
     setError(null);
 
     try {
-      const response = await fetch(`/api/courses/${courseId}`, {
-        method: "DELETE",
+      const response = await fetch(`/api/products/${productId}`, {
+        method: "DELETE", 
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to delete course: ${response.status}`);
+        throw new Error(`Failed to delete product: ${response.status}`);
       }
 
       // Navigate back to the home page after successful deletion
-      router.push("/");
+      router.push("/"); 
       router.refresh();
     } catch (err) {
-      console.error("Error deleting course:", err);
-      setError("Failed to delete course. Please try again.");
+      console.error("Error deleting product:", err);
+      setError("Failed to delete product. Please try again.");
     } finally {
       setIsDeleting(false);
     }
@@ -53,14 +53,14 @@ export default function DeleteCourseButton({ courseId }: DeleteCourseButtonProps
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button variant="destructive" disabled={isDeleting}>
-            {isDeleting ? "Deleting..." : "Delete Course"}
+            {isDeleting ? "Deleting..." : "Delete Product"} 
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the course.
+              This action cannot be undone. This will permanently delete the product.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -71,8 +71,8 @@ export default function DeleteCourseButton({ courseId }: DeleteCourseButtonProps
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+
+      {error && <p className="text-red-500 mt-2">{error}</p>} 
     </>
   );
-} 
+}

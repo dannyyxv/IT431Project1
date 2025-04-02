@@ -6,13 +6,14 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 
-export default function AddCoursePage() {
+export default function AddProductPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    estimatedTime: ""
+    price: "",
+    image: "", 
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -25,14 +26,13 @@ export default function AddCoursePage() {
     setLoading(true);
 
     try {
-      // Format the estimatedTime to include "hours"
       const dataToSubmit = {
         ...formData,
-        estimatedTime: formData.estimatedTime ? `${formData.estimatedTime} hours` : undefined
+        price: formData.price ? `$${formData.price}` : undefined
       };
 
       const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
-      const response = await fetch(`${baseUrl}/api/courses`, {
+      const response = await fetch(`${baseUrl}/api/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,15 +41,15 @@ export default function AddCoursePage() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add course");
+        throw new Error("Failed to add product");
       }
 
       // Redirect to home page after successful creation
-      router.push("/");
+      router.push("/products");
       router.refresh(); // Refresh the page data
     } catch (error) {
-      console.error("Error adding course:", error);
-      alert("Failed to add course. Please try again.");
+      console.error("Error adding product:", error);
+      alert("Failed to add product. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -61,16 +61,18 @@ export default function AddCoursePage() {
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold">Add New Course</h1>
-            <Link href="/">
-              <Button variant="outline">Back to Courses</Button>
+            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 via-purple-500 to-green-500">
+              Add New Product
+            </h1>
+            <Link href="/products">
+              <Button variant="outline">Back to Products</Button>
             </Link>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow">
+          <form onSubmit={handleSubmit} className="space-y-6 bg-gradient-to-r from-blue-900 to-green-600 p-6 rounded-lg shadow-lg">
             <div className="space-y-2">
-              <label htmlFor="title" className="block font-medium">
-                Course Title <span className="text-red-500">*</span>
+              <label htmlFor="title" className="block font-medium text-white">
+                Product Title <span className="text-red-500">*</span>
               </label>
               <input
                 id="title"
@@ -80,12 +82,12 @@ export default function AddCoursePage() {
                 value={formData.title}
                 onChange={handleChange}
                 className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter course title"
+                placeholder="Enter product title"
               />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="description" className="block font-medium">
+              <label htmlFor="description" className="block font-medium text-white">
                 Description <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -96,22 +98,38 @@ export default function AddCoursePage() {
                 onChange={handleChange}
                 rows={4}
                 className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter course description"
+                placeholder="Enter product description"
               />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="estimatedTime" className="block font-medium">
-                Estimated Time (hours)
+              <label htmlFor="price" className="block font-medium text-white">
+                Price <span className="text-red-500">*</span>
               </label>
               <input
-                id="estimatedTime"
-                name="estimatedTime"
+                id="price"
+                name="price"
                 type="number"
-                value={formData.estimatedTime}
+                required
+                value={formData.price}
                 onChange={handleChange}
                 className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter number of hours"
+                placeholder="Enter product price"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="image" className="block font-medium text-white">
+                Product Image URL
+              </label>
+              <input
+                id="image"
+                name="image"
+                type="text"
+                value={formData.image}
+                onChange={handleChange}
+                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter product image URL"
               />
             </div>
 
@@ -121,7 +139,7 @@ export default function AddCoursePage() {
                 className="w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800"
                 disabled={loading}
               >
-                {loading ? "Adding Course..." : "Add Course"}
+                {loading ? "Adding Product..." : "Add Product"}
               </Button>
             </div>
           </form>
@@ -129,4 +147,4 @@ export default function AddCoursePage() {
       </main>
     </div>
   );
-} 
+}

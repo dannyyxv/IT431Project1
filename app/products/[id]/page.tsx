@@ -3,22 +3,22 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
-import DeleteCourseButton from "@/components/DeleteCourseButton";
-import { Course } from "@/types/course";
+import DeleteProductButton from "@/components/DeleteProductButton"; // Adjusted for Product
+import { Product } from "@/types/product"; // Adjusted to Product type
 
-interface CoursePageProps {
+interface ProductPageProps {
   params: {
     id: string;
   };
 }
 
-const CoursePage: FC<CoursePageProps> = async ({ params }) => {
+const ProductPage: FC<ProductPageProps> = async ({ params }) => {
   // Await params before accessing its properties
   const id = (await params).id;
-  const courseId = parseInt(id, 10);
+  const productId = parseInt(id, 10);
   
   // Check if the ID is valid
-  if (isNaN(courseId)) {
+  if (isNaN(productId)) {
     notFound();
   }
   
@@ -26,16 +26,16 @@ const CoursePage: FC<CoursePageProps> = async ({ params }) => {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || '';
   
   try {
-    // Fetch course from the API with base URL
-    const response = await fetch(`${baseUrl}/api/courses/${courseId}`, { next: { revalidate: 0 } });
+    // Fetch product from the API with base URL
+    const response = await fetch(`${baseUrl}/api/products/${productId}`, { next: { revalidate: 0 } });
     
     // If the response is not ok, show 404
     if (!response.ok) {
       notFound();
     }
     
-    // Parse the course data
-    const course: Course = await response.json();
+    // Parse the product data
+    const product: Product = await response.json();
     
     return (
       <div>
@@ -44,35 +44,35 @@ const CoursePage: FC<CoursePageProps> = async ({ params }) => {
           <div className="max-w-3xl mx-auto">
             <div className="mb-6">
               <Button asChild variant="outline" className="mb-4">
-                <Link href="/">← Back to Courses</Link>
+                <Link href="/">← Back to Products</Link>
               </Button>
               
               <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold">{course.title}</h1>
+                <h1 className="text-3xl font-bold">{product.title}</h1>
                 <div className="space-x-2">
                   <Button asChild variant="outline">
-                    <Link href={`/courses/${course.id}/edit`}>Edit</Link>
+                    <Link href={`/products/${product.id}/edit`}>Edit</Link>
                   </Button>
-                  <DeleteCourseButton courseId={course.id} />
+                  <DeleteProductButton productId={product.id} /> {/* Updated for Product */}
                 </div>
               </div>
             </div>
             
             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-              <h2 className="text-xl font-semibold mb-2">Course Description</h2>
-              <p className="mb-4">{course.description}</p>
+              <h2 className="text-xl font-semibold mb-2">Product Description</h2>
+              <p className="mb-4">{product.description}</p>
               
-              <h2 className="text-xl font-semibold mb-2">Estimated Time</h2>
-              <p>{course.estimatedTime}</p>
+              <h2 className="text-xl font-semibold mb-2">Price</h2>
+              <p>{product.price}</p> {/* Display the product price */}
             </div>
           </div>
         </main>
       </div>
     );
   } catch (error) {
-    console.error('Error fetching course:', error);
+    console.error('Error fetching product:', error);
     notFound();
   }
 };
 
-export default CoursePage; 
+export default ProductPage;
