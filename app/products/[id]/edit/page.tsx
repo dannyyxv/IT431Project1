@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
-import { Product } from "@/types/product"; // Adjust the import path as necessary
+import { Product } from "@/types/product";
 
 interface EditProductPageProps {
   params: {
