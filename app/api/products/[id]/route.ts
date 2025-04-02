@@ -29,10 +29,10 @@ const writeProducts = (products: Product[]) => {
 // GET: Retrieve a product by ID
 export async function GET(
   request: Request,
-  context: { params: Promise<{ id: string }> } // Await params
+  context: { params: Promise<{ id: string }> } 
 ) {
   try {
-    const { id } = await context.params; // Await params before accessing
+    const { id } = await context.params; 
     const productId = parseInt(id, 10);
 
     if (isNaN(productId)) {
@@ -62,10 +62,10 @@ export async function GET(
 // PUT: Update a product by ID
 export async function PUT(
   request: Request,
-  context: { params: Promise<{ id: string }> } // Await params
+  context: { params: Promise<{ id: string }> } 
 ) {
   try {
-    const { id } = await context.params; // Await params before accessing
+    const { id } = await context.params; 
     const productId = parseInt(id, 10);
     if (isNaN(productId)) {
       return NextResponse.json(
@@ -99,10 +99,10 @@ export async function PUT(
 // DELETE: Remove a product by ID
 export async function DELETE(
   request: Request,
-  context: { params: Promise<{ id: string }> } // Await params
+  context: { params: Promise<{ id: string }> } 
 ) {
   try {
-    const { id } = await context.params; // Await params before accessing
+    const { id } = await context.params; 
     const productId = parseInt(id, 10);
     if (isNaN(productId)) {
       return NextResponse.json(
