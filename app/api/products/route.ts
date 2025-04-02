@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
-import { Product } from "@/types/product"; // Corrected import for Product model from the types folder
+import { Product } from "@/types/product"; 
 
 // Define the path to the JSON file for products
-const dataFilePath = path.join(process.cwd(), "data", "products.json"); // Changed to products.json
+const dataFilePath = path.join(process.cwd(), "data", "products.json"); 
 
 // Helper function to read products from the JSON file
 const readProducts = (): Product[] => {
