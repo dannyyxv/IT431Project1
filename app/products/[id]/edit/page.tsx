@@ -81,7 +81,6 @@ export default function EditProductPage({ params }: EditProductPageProps) {
         throw new Error("Failed to update product");
       }
 
-      // Redirect to product details page after successful update
       router.push("/products");
       router.refresh(); // Refresh the page data
     } catch (error) {
